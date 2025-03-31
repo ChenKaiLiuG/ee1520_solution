@@ -4,7 +4,7 @@
 #include <vector>
 #include <iomanip>
 #include <sstream>
-#include <filesystem> // C++17 或更高版本
+#include <filesystem> 
 #include <cmath>
 
 #ifdef _MSC_VER
@@ -34,8 +34,10 @@ namespace fs {
 #endif
 
 
-int main(int argc, char *argv[]) {
-    if (argc != 5) {
+int main(int argc, char *argv[]) 
+{
+    if (argc != 5) 
+    {
         cerr << "usage: " << argv[0] << " <destination> <prefix> <chunk size (K)> <number of chunks>" << endl;
         return 1;
     }
@@ -63,7 +65,8 @@ int main(int argc, char *argv[]) {
     long long expected_chunk_size_bytes = expected_chunk_size_kb * 1024;
     ofstream destination_file(destination_filename, ios::binary);
 
-    if (!destination_file.is_open()) {
+    if (!destination_file.is_open()) 
+    {
         cerr << "Error: Could not open destination file: " << destination_filename << endl;
         return 1;
     }
@@ -73,15 +76,19 @@ int main(int argc, char *argv[]) {
     bool missing_chunk = false;
     bool incorrect_chunk_size = false;
 
-    for (long long i = 0; i < num_chunks; ++i) {
+    for (long long i = 0; i < num_chunks; ++i) 
+    {
         ss.str("");
         ss << prefix << "." << setfill('0') << setw(32) << i;
         string chunk_filename = ss.str();
 
-        if (!fs::exists(chunk_filename)) {
+        if (!fs::exists(chunk_filename)) 
+        {
             cerr << "Error: Missing chunk file: " << chunk_filename << endl;
             missing_chunk = true;
-        } else {
+        } 
+        else 
+        {
             cout << "putting " << chunk_filename << endl;
             ifstream chunk_file(chunk_filename, ios::binary);
             if (chunk_file.is_open()) {
@@ -106,16 +113,13 @@ int main(int argc, char *argv[]) {
 
     if (missing_chunk) {
         cerr << "Error: One or more chunk files are missing. Reassembly failed." << endl;
-        // Optionally, remove the partially created destination file
         remove(destination_filename.c_str());
         return 1;
     }
 
     if (incorrect_chunk_size) {
         cerr << "Warning: One or more chunk files have an incorrect size. The reassembled file might be incomplete or corrupted." << endl;
-        // You might choose to still return 0 here if you want to keep the reassembled file
-        // even with size warnings. Returning 1 would indicate a failure.
-        // return 1;
+        return 1;
     }
 
     cout << "done... [" << num_chunks << "] chunks produced for " << destination_filename << endl;
