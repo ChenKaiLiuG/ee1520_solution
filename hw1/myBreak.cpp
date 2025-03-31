@@ -57,7 +57,7 @@ int main(int argc, char *argv[]) {
     stringstream ss;
 
     for (long long i = 0; i < num_chunks; ++i) {
-        ss.str(""); // Clear the stringstream
+        ss.str("");
         ss << prefix << "." << setfill('0') << setw(32) << i;
         string output_filename = ss.str();
 
