@@ -36,31 +36,3 @@ make clean
 * 如果 meta 檔案遺失或損壞，`myHeal` 將無法正確重建原始檔案。
 * 如果任何 chunk 檔案遺失，程式將會輸出錯誤訊息並刪除已建立的目标檔案。
 * 如果 chunk 的實際大小與 meta 檔案中記錄的大小不符 (除了最後一個 chunk 可能較小之外)，程式將會輸出警告訊息，但仍會嘗試繼續組裝。這可能會導致組裝後的檔案不完整或損壞。
-
-**Makefile (`Makefile`)**
-
-```makefile
-CC = gcc
-CFLAGS = -Wall -O2
-TARGET = myheal
-
-$(TARGET): myHeal.c
-	$(CC) $(CFLAGS) myHeal.c -o $(TARGET)
-
-clean:
-	rm -f $(TARGET)
-```
-
-**說明:**
-
-* **`CC = gcc`**: 定義編譯器為 `gcc`。
-* **`CFLAGS = -Wall -O2`**: 定義編譯選項。
-    * `-Wall`: 開啟所有編譯警告。
-    * `-O2`: 開啟第二級最佳化。
-* **`TARGET = myheal`**: 定義目標執行檔名稱為 `myheal`。
-* **`$(TARGET): myHeal.c`**: 指出目標 `myheal` 依賴於原始碼檔案 `myHeal.c`。
-* **`$(CC) $(CFLAGS) myHeal.c -o $(TARGET)`**: 編譯 `myHeal.c` 並產生可執行檔 `myheal`。
-* **`clean:`**: 定義一個名為 `clean` 的偽目標，用於清理編譯產生的檔案。
-* **`rm -f $(TARGET)`**: 移除目標執行檔 `myheal`。
-
-將 `myHeal.c`、`Makefile` 和 `README.md` 放在同一個目錄下，你就可以使用 `make` 命令來編譯你的 `myHeal` 程式了。
